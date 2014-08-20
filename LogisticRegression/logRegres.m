@@ -1,1 +1,0 @@
-function [J theta] = logRegres(X, init_theta, y, lambda, alpha)
