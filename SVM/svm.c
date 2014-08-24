@@ -17,8 +17,8 @@ double b;
 int y[1005];
 int m;
 
-const double sigma = 2.8;	//2.8
-const double C = 1.2;		//1.2
+const double sigma = 0.1;	//0.1
+const double C = 1.0;		//1.0
 
 int getData(){
 	int i = 0;
@@ -66,7 +66,6 @@ void smo(int MaxIters){
 				// if((alpha[i] == 0 && y[i]*ui > 1) ||
 				// 	(alpha[i] == C && y[i]*ui < 1) ||
 				// 	(alpha[i] > 0 && alpha[i] < C && y[i]*ui == 1)){
-
 					
 				// }
 				if(abs(Ei - Ej) > maxnum){
@@ -85,9 +84,9 @@ void smo(int MaxIters){
 			}
 			else{
 				L = MAX(0, alpha[j] + alpha[i] - C);
-				H = MAX(C, alpha[j] + alpha[i]);
+				H = MIN(C, alpha[j] + alpha[i]);
 			}
-			//if(L == H) continue;
+			if(L >= H) continue;
 
 			double K = kernel(X[i], X[i]) + kernel(X[j], X[j]) - 2*kernel(X[i], X[j]);
 			newAlphaj = alpha[j] + y[j]*(Ei - Ej) / K;
@@ -110,7 +109,7 @@ void smo(int MaxIters){
 			alpha[i] = newAlphai;
 			alpha[j] = newAlphaj;
 
-			//printf("%d %d\n", i, j);
+			printf("%d %d\n", i, j);
 		}
 	}
 }
@@ -121,9 +120,9 @@ int main(){
 	memset(alpha, 0, sizeof(alpha));
 	b = 0;
 
-	smo(10);
+	smo(2);
 
-	printf("b: %f", b);
+	printf("b: %f\n", b);
 	freopen("result.txt", "w+", stdout);
 	for(int i=0; i<m; i++){
 		if(predict(X[i]) >= 0)

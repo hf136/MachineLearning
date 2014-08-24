@@ -24,6 +24,7 @@ plot(X(neg, 1), X(neg, 2), 'ko', 'MarkerEdgeColor', 'r');
 hold off;
 title('predictions');
 
+Accuracy = sum(predict == y)/size(X, 1)
 pos = y ~= predict;
 subplot(1,3,3);
 plot(X(pos, 1), X(pos, 2), 'kx', 'MarkerEdgeColor', 'r');
